@@ -1,5 +1,6 @@
-local ABSORB_GLOW_ALPHA = 0.6
-local ABSORB_GLOW_OFFSET = -7
+local ABSORB_GLOW_ALPHA     = 0.6
+local ABSORB_GLOW_OFFSET    = -7
+local ABSORB_ALPHA          = 0.5
 
 hooksecurefunc(
     "UnitFrameHealPredictionBars_Update",
@@ -7,6 +8,8 @@ hooksecurefunc(
         local absorbBar = frame.totalAbsorbBar
         if not absorbBar or absorbBar:IsForbidden() then
             return
+        else 
+            absorbBar:SetAlpha(ABSORB_ALPHA)
         end
 
         local absorbGlow = frame.overAbsorbGlow
@@ -50,7 +53,7 @@ hooksecurefunc(
             absorbGlow:SetAlpha(ABSORB_GLOW_ALPHA)
         else
             -- overshield - fill health deficit and remaining absorb percentage into health bar
-            local xOffset = (maxHealth / effectiveHealth) - 1
+            local xOffset = 1 - (effectiveHealth / maxHealth)
             absorbBar:UpdateFillPosition(healthBar:GetStatusBarTexture(), totalAbsorb, xOffset)
 
             -- anchor overabsorb glow left into health bar
@@ -73,6 +76,8 @@ hooksecurefunc(
         local absorbOverlay = frame.totalAbsorbOverlay
         if not absorbOverlay or absorbOverlay:IsForbidden() then
             return
+        else
+            absorbOverlay:SetAlpha(ABSORB_ALPHA)
         end
 
         local absorbGlow = frame.overAbsorbGlow
